@@ -11,7 +11,6 @@ section .text
     global _start
 
 _start:
-    ; --- I/O: Ввід числа ---
     mov eax, 3
     mov ebx, 0
     mov ecx, buffer
@@ -20,15 +19,14 @@ _start:
     call atoi
     mov [x_val], eax
 
-    ; --- logic: Двійковий друк ---
-    mov ebp, eax        ; зберігаємо x в ebp
-    mov ecx, 32         ; лічильник на 32 біти
+    mov ebp, eax        
+    mov ecx, 32        
 .bin_lp:
-    rol ebp, 1          ; циклічний зсув вліво
+    rol ebp, 1       
     mov al, '0'
-    test ebp, 1         ; перевірка молодшого біта після зсуву
+    test ebp, 1        
     jz .pr_bit
-    inc al              ; стає '1'
+    inc al             
 .pr_bit:
     mov [buffer], al
     push ecx
@@ -53,7 +51,7 @@ _start:
     loop .bin_lp
     call pr_nl
 
-    ; --- math: Popcount (кількість одиниць) ---
+  
     mov eax, [x_val]
     xor edx, edx
     mov ecx, 32
@@ -67,18 +65,15 @@ _start:
     mov eax, edx
     call itoa
 
-    ; --- math: Бітові маски (p=0, q=1, r=2) ---
     mov eax, [x_val]
     or eax, 3           ; set bit 0, 1
     and eax, -5         ; clear bit 2 (маска 111...1011)
     call itoa
 
-    ; --- Exit ---
     mov eax, 1
     xor ebx, ebx
     int 0x80
 
-; --- Допоміжні функції ---
 atoi:
     xor eax, eax
     mov edi, ecx
