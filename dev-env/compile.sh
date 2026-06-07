@@ -1,2 +1,2 @@
 #!/bin/bash
-nasm -f elf32 practice6.asm -o practice6.o
+nasm -f elf32 practice15.asm -o practice15.o
